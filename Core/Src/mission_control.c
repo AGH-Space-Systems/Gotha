@@ -22,7 +22,7 @@ uint8_t ReactToCommand(uint8_t command, uint8_t flight_status){
     break;
   case Buzzer10sTest:
     HAL_GPIO_WritePin(BUZZER_GPIO_Port, BUZZER_Pin, GPIO_PIN_SET);
-    osDelay(10000);
+    osDelay(10000); // TODO: This will hang mission control, to be changed
     HAL_GPIO_WritePin(BUZZER_GPIO_Port, BUZZER_Pin, GPIO_PIN_RESET);
     break;
   case EnterPowerSaveMode:
