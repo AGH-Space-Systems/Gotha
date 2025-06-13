@@ -29,6 +29,7 @@ target_sources(stm32cubemx INTERFACE
     ../../Core/Src/freertos.c
     ../../Core/Src/LoRa.c
     ../../Core/Src/bmp280.c
+    ../../Core/Src/mission_control.c
     ../../Core/Src/i2c.c
     ../../Core/Src/spi.c
     ../../Core/Src/tim.c
