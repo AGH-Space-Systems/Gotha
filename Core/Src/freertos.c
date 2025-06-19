@@ -31,6 +31,8 @@
 #include "i2c.h"
 #include "mission_control.h"
 #include "spi.h"
+#include "gps.h"
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,6 +57,7 @@ struct bmp_data {
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
 static uint8_t flight_status = IDLE;
+extern UART_HandleTypeDef huart2;
 /* USER CODE END Variables */
 /* Definitions for AccGyroTask */
 osThreadId_t AccGyroTaskHandle;
@@ -269,8 +272,14 @@ void PressFunc(void *argument) {
 /* USER CODE END Header_GPSFunc */
 void GPSFunc(void *argument) {
   /* USER CODE BEGIN GPSFunc */
+  char latitude[16];
+  char longitude[16];
+  GPS_Init(&huart2);
   /* Infinite loop */
   for (;;) {
+    GPS_Process();
+    strcpy(latitude, gps_data.latitude);
+    strcpy(longitude, gps_data.longitude);
     osDelay(1);
   }
   /* USER CODE END GPSFunc */
@@ -308,19 +317,22 @@ void LoRaFunc(void *argument) {
   LoRa_module.CS_pin = CS_LORA_Pin;
   LoRa_module.reset_port = LORA_RST_GPIO_Port;
   LoRa_module.reset_pin = LORA_RST_Pin;
-
+  #ifdef USE_LORA
   if (LoRa_init(&LoRa_module) != LORA_OK) {
     flight_status = MODULE_INIT_ERROR;
   }
   LoRa_startReceiving(&LoRa_module);
+  #endif
   /* Infinite loop */
   for (;;) {
+    #ifdef USE_LORA
     LoRa_receive(&LoRa_module, &received_data, sizeof(received_data));
     osStatus_t status =
         osMessageQueuePut(LoRaRXQueueHandle, &received_data, 0, portMAX_DELAY);
     if (status != osOK) {
       continue;
     }
+    #endif
     osDelay(1);
   }
   /* USER CODE END LoRaFunc */

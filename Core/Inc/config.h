@@ -27,3 +27,7 @@
 #define LANDING 5
 #define MODULE_INIT_ERROR 69
 
+/* Debug states*/
+
+#define USE_LORA
+
