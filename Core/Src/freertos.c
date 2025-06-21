@@ -310,25 +310,23 @@ void ServoFunc(void *argument) {
 /* USER CODE END Header_LoRaFunc */
 void LoRaFunc(void *argument) {
   /* USER CODE BEGIN LoRaFunc */
-  uint8_t received_data;
-  LoRa LoRa_module = newLoRa();
-  LoRa_module.hSPIx = &hspi1;
-  LoRa_module.CS_port = CS_LORA_GPIO_Port;
-  LoRa_module.CS_pin = CS_LORA_Pin;
-  LoRa_module.reset_port = LORA_RST_GPIO_Port;
-  LoRa_module.reset_pin = LORA_RST_Pin;
+  LoRa lora;
+  lora.hspi = &hspi1;
+  lora.nss_port = CS_LORA_GPIO_Port;
+  lora.nss_pin = CS_LORA_Pin;
+  lora.reset_port = LORA_RST_GPIO_Port;
+  lora.reset_pin = LORA_RST_Pin;
+  uint8_t buf[64];
   #ifdef USE_LORA
-  if (LoRa_init(&LoRa_module) != LORA_OK) {
-    flight_status = MODULE_INIT_ERROR;
-  }
-  LoRa_startReceiving(&LoRa_module);
+  LoRa_Init(&lora);
+  LoRa_ReceiveContinuous(&lora);
   #endif
   /* Infinite loop */
   for (;;) {
     #ifdef USE_LORA
-    LoRa_receive(&LoRa_module, &received_data, sizeof(received_data));
+    int len = LoRa_ReceivePacket(&lora, buf, sizeof(buf));
     osStatus_t status =
-        osMessageQueuePut(LoRaRXQueueHandle, &received_data, 0, portMAX_DELAY);
+        osMessageQueuePut(LoRaRXQueueHandle, &buf, 0, portMAX_DELAY);
     if (status != osOK) {
       continue;
     }
