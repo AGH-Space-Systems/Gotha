@@ -1,7 +1,7 @@
 #ifndef LORA_SX1278_H
 #define LORA_SX1278_H
 
-#include "stm32f4xx_hal.h"  // Dopasuj do swojego STM32
+#include "stm32f4xx_hal.h"  
 
 #define LORA_REG_FIFO               0x00
 #define LORA_REG_OP_MODE           0x01
@@ -21,6 +21,7 @@
 #define LORA_MODE_STDBY            0x01
 #define LORA_MODE_RXCONTINUOUS     0x85
 #define LORA_LONG_RANGE_MODE       0x80
+#define LORA_MODE_TX               0x03
 
 typedef struct {
     SPI_HandleTypeDef *hspi;
@@ -35,5 +36,6 @@ void LoRa_SetFrequency(LoRa *lora, long frequency);
 void LoRa_ReceiveContinuous(LoRa *lora);
 int LoRa_ReceivePacket(LoRa *lora, uint8_t *buffer, uint8_t maxlen);
 void LoRa_Reset(LoRa *lora);
+void LoRa_SendPacket(LoRa *lora, uint8_t *data, uint8_t len);
 
 #endif

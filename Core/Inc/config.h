@@ -16,6 +16,11 @@
 #define OverridePhasetoFlight 12
 #define OverridePhasetoRecovery 13
 
+/* Default GY85 states*/
+#define DEFGX 270
+#define DEFGY 0
+#define DEFGZ 0
+
 
 /* Flight phases */
 
@@ -25,9 +30,15 @@
 #define APOGEE 3
 #define DESCENT 4
 #define LANDING 5
-#define MODULE_INIT_ERROR 69
+#define LoRa_INIT_ERROR 69
+#define BMP_INIT_ERROR 70
+#define GPS_INIT_ERROR 71
+#define GY85_INIT_ERROR 72
 
 /* Debug states*/
 
 #define USE_LORA
+//#define USE_IMU
+#define USE_BMP280
+//#define USE_GPS
 

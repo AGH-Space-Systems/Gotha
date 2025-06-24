@@ -6,7 +6,7 @@ static UART_HandleTypeDef *gps_huart;
 static char gps_rx_char;
 static char gps_buffer[GPS_BUFFER_SIZE];
 static uint16_t gps_index = 0;
-static uint8_t gps_ready = 0;
+static uint8_t gps_ready = 1;
 
 GPS_Data gps_data;
 
@@ -19,7 +19,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     if (huart->Instance == gps_huart->Instance) {
         if (gps_index < GPS_BUFFER_SIZE - 1) {
             gps_buffer[gps_index++] = gps_rx_char;
-            if (gps_rx_char == '\n') {
+            if (gps_rx_char == '\r') {
                 gps_buffer[gps_index] = '\0';
                 gps_index = 0;
                 gps_ready = 1;
@@ -37,10 +37,10 @@ void GPS_Process(void) {
 
     gps_ready = 0;
 
-    if (strstr(gps_buffer, "$GPGGA") != NULL) {
+  //  if (strstr(gps_buffer, "$GPGGA") != NULL) {
         strcpy(gps_data.raw, gps_buffer);
         GPS_ParseGGA(gps_data.raw);
-    }
+    //}
 }
 
 void GPS_ParseGGA(const char *nmea) {

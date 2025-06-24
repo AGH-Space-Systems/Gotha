@@ -21,7 +21,6 @@ static uint8_t LoRa_ReadRegister(LoRa *lora, uint8_t addr) {
     return rx;
 }
 
-// --- Reset LoRa (bez HAL_Delay) ---
 void LoRa_Reset(LoRa *lora) {
     HAL_GPIO_WritePin(lora->reset_port, lora->reset_pin, GPIO_PIN_RESET);
     for (volatile int i = 0; i < 10000; i++); 
@@ -36,7 +35,7 @@ uint8_t LoRa_Init(LoRa *lora) {
 
     uint8_t version = LoRa_ReadRegister(lora, LORA_REG_VERSION);
     if (version != 0x12) {
-        return 0; // brak komunikacji
+        return 0; 
     }
 
     // Sleep
@@ -84,4 +83,23 @@ int LoRa_ReceivePacket(LoRa *lora, uint8_t *buffer, uint8_t maxlen) {
     }
 
     return 0; 
+}
+
+void LoRa_SendPacket(LoRa *lora, uint8_t *data, uint8_t len) {
+
+    LoRa_WriteRegister(lora, LORA_REG_OP_MODE, LORA_LONG_RANGE_MODE | LORA_MODE_STDBY);
+
+    LoRa_WriteRegister(lora, LORA_REG_FIFO_ADDR_PTR, 0x00);
+
+    for (uint8_t i = 0; i < len; i++) {
+        LoRa_WriteRegister(lora, LORA_REG_FIFO, data[i]);
+    }
+
+    LoRa_WriteRegister(lora, LORA_REG_PAYLOAD_LENGTH, len);
+
+    LoRa_WriteRegister(lora, LORA_REG_OP_MODE, LORA_LONG_RANGE_MODE | LORA_MODE_TX);
+
+    while ((LoRa_ReadRegister(lora, LORA_REG_IRQ_FLAGS) & 0x08) == 0);
+
+    LoRa_WriteRegister(lora, LORA_REG_IRQ_FLAGS, 0xFF);
 }

@@ -149,7 +149,9 @@
 				40,
 				41,
 				42,
-				43
+				43,
+				44,
+				45
 			]
 		},
 		{
@@ -212,7 +214,7 @@
 			"language" : "ASM",
 			"sourceIndexes" : 
 			[
-				44
+				46
 			]
 		}
 	],
@@ -288,14 +290,16 @@
 				40,
 				41,
 				42,
-				43
+				43,
+				44,
+				45
 			]
 		},
 		{
 			"name" : "",
 			"sourceIndexes" : 
 			[
-				44
+				46
 			]
 		}
 	],
@@ -335,6 +339,18 @@
 			"backtrace" : 2,
 			"compileGroupIndex" : 0,
 			"path" : "Core/Src/mission_control.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/gps.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/imu.c",
 			"sourceGroupIndex" : 0
 		},
 		{
