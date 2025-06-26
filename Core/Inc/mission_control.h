@@ -3,12 +3,13 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "main.h"
 #include "cmsis_os.h"
 
-
-typedef struct {
+typedef struct
+{
     float pressure;
     float temperature;
     float humidity;
@@ -22,7 +23,8 @@ typedef struct {
     int16_t mx, my, mz;
 } mission_struct;
 
-uint8_t ReactToCommand(uint8_t command, uint8_t flight_status, mission_struct mission);
+void ReactToCommand(uint8_t command, uint8_t *flight_status, mission_struct mission);
 uint8_t StateMachine(uint8_t flight_status, mission_struct mission);
+void MissionToString(mission_struct mission, uint8_t *buf);
 
-#endif  // __MISSION_CONTROL_H__
+#endif // __MISSION_CONTROL_H__

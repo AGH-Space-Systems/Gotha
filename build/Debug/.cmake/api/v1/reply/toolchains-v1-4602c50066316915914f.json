@@ -7,7 +7,7 @@
 			{
 				"id" : "GNU",
 				"implicit" : {},
-				"path" : "/opt/homebrew/bin/arm-none-eabi-gcc",
+				"path" : "C:/msys64/ucrt64/bin/arm-none-eabi-gcc.exe",
 				"version" : ""
 			},
 			"language" : "ASM",
@@ -29,8 +29,8 @@
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : []
 				},
-				"path" : "/opt/homebrew/bin/arm-none-eabi-gcc",
-				"version" : "14.2.1"
+				"path" : "C:/msys64/ucrt64/bin/arm-none-eabi-gcc.exe",
+				"version" : "13.3.0"
 			},
 			"language" : "C",
 			"sourceFileExtensions" : 
@@ -50,8 +50,8 @@
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : []
 				},
-				"path" : "/opt/homebrew/bin/arm-none-eabi-g++",
-				"version" : "14.2.1"
+				"path" : "C:/msys64/ucrt64/bin/arm-none-eabi-g++.exe",
+				"version" : "13.3.0"
 			},
 			"language" : "CXX",
 			"sourceFileExtensions" : 

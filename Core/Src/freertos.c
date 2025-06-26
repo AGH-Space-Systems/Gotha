@@ -19,6 +19,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "FreeRTOS.h"
+#include "task.h"
+#include "main.h"
 #include "cmsis_os.h"
 #include "main.h"
 #include "task.h"
@@ -33,12 +35,15 @@
 #include "spi.h"
 #include "gps.h"
 #include "imu.h"
+#include "usart.h"
+#include <stdio.h>
 #include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-struct bmp_data {
+struct bmp_data
+{
   float pressure;
   float temperature;
   float humidity;
@@ -62,74 +67,82 @@ extern UART_HandleTypeDef huart2;
 static mission_struct mission;
 osMutexId_t mission_mutex;
 const osMutexAttr_t mission_mutex_attr = {
-  .name = "missionMutex"
-};
+    .name = "missionMutex"};
 osMutexId_t i2c_mutex;
 const osMutexAttr_t i2c_mutex_attr = {
-  .name = "i2cMutex"
-};
+    .name = "i2cMutex"};
+
+// ESP32 COMMUNICATION BUFFERS
+static uint8_t buf;
+static uint8_t rec_buf[256];
 
 /* USER CODE END Variables */
 /* Definitions for AccGyroTask */
 osThreadId_t AccGyroTaskHandle;
 const osThreadAttr_t AccGyroTask_attributes = {
     .name = "AccGyroTask",
-    .stack_size = 256 * 4,
+    .stack_size = 128 * 4,
     .priority = (osPriority_t)osPriorityNormal,
 };
 /* Definitions for PressTask */
 osThreadId_t PressTaskHandle;
 const osThreadAttr_t PressTask_attributes = {
     .name = "PressTask",
-    .stack_size = 256 * 4,
+    .stack_size = 128 * 4,
     .priority = (osPriority_t)osPriorityLow,
 };
 /* Definitions for GPSTask */
 osThreadId_t GPSTaskHandle;
 const osThreadAttr_t GPSTask_attributes = {
     .name = "GPSTask",
-    .stack_size = 256 * 4,
+    .stack_size = 128 * 4,
     .priority = (osPriority_t)osPriorityLow,
 };
 /* Definitions for ServoTask */
 osThreadId_t ServoTaskHandle;
 const osThreadAttr_t ServoTask_attributes = {
     .name = "ServoTask",
-    .stack_size = 256 * 4,
+    .stack_size = 128 * 4,
     .priority = (osPriority_t)osPriorityLow,
 };
 /* Definitions for LoRaTask */
 osThreadId_t LoRaTaskHandle;
 const osThreadAttr_t LoRaTask_attributes = {
     .name = "LoRaTask",
-    .stack_size = 256 * 4,
+    .stack_size = 128 * 4,
     .priority = (osPriority_t)osPriorityLow,
 };
 /* Definitions for MissionControlT */
 osThreadId_t MissionControlTHandle;
 const osThreadAttr_t MissionControlT_attributes = {
     .name = "MissionControlT",
-    .stack_size = 256 * 4,
+    .stack_size = 128 * 4,
     .priority = (osPriority_t)osPriorityLow,
 };
 /* Definitions for AccGyroQueue */
 osMessageQueueId_t AccGyroQueueHandle;
-const osMessageQueueAttr_t AccGyroQueue_attributes = {.name = "AccGyroQueue"};
+const osMessageQueueAttr_t AccGyroQueue_attributes = {
+    .name = "AccGyroQueue"};
 /* Definitions for PressQueue */
 osMessageQueueId_t PressQueueHandle;
-const osMessageQueueAttr_t PressQueue_attributes = {.name = "PressQueue"};
+const osMessageQueueAttr_t PressQueue_attributes = {
+    .name = "PressQueue"};
 /* Definitions for GPSQueue */
 osMessageQueueId_t GPSQueueHandle;
-const osMessageQueueAttr_t GPSQueue_attributes = {.name = "GPSQueue"};
+const osMessageQueueAttr_t GPSQueue_attributes = {
+    .name = "GPSQueue"};
 /* Definitions for ServoQueue */
 osMessageQueueId_t ServoQueueHandle;
-const osMessageQueueAttr_t ServoQueue_attributes = {.name = "ServoQueue"};
+const osMessageQueueAttr_t ServoQueue_attributes = {
+    .name = "ServoQueue"};
 /* Definitions for LoRaRXQueue */
 osMessageQueueId_t LoRaRXQueueHandle;
-const osMessageQueueAttr_t LoRaRXQueue_attributes = {.name = "LoRaRXQueue"};
+const osMessageQueueAttr_t LoRaRXQueue_attributes = {
+    .name = "LoRaRXQueue"};
 /* Definitions for LoRaTXQueue */
 osMessageQueueId_t LoRaTXQueueHandle;
-const osMessageQueueAttr_t LoRaTXQueue_attributes = {.name = "LoRaTXQueue"};
+const osMessageQueueAttr_t LoRaTXQueue_attributes = {
+    .name = "LoRaTXQueue"};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -151,7 +164,8 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
  * @param  None
  * @retval None
  */
-void MX_FREERTOS_Init(void) {
+void MX_FREERTOS_Init(void)
+{
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
@@ -234,26 +248,30 @@ void MX_FREERTOS_Init(void) {
  * @retval None
  */
 /* USER CODE END Header_AccGyroFunc */
-void AccGyroFunc(void *argument) {
+void AccGyroFunc(void *argument)
+{
   /* USER CODE BEGIN AccGyroFunc */
 
   GY85 imu;
   osMutexAcquire(i2c_mutex, osWaitForever);
   I2C_ResetBus(&hi2c1);
-      if (hi2c1.State != HAL_I2C_STATE_READY) {
-        I2C_ResetBus(&hi2c1);
+  if (hi2c1.State != HAL_I2C_STATE_READY)
+  {
+    I2C_ResetBus(&hi2c1);
   }
   osMutexRelease(i2c_mutex);
-  #ifdef USE_IMU
+#ifdef USE_IMU
   osMutexAcquire(i2c_mutex, osWaitForever);
-  if (!GY85_Init(&imu, &hi2c1)){
-    flight_status=GY85_INIT_ERROR;
+  if (!GY85_Init(&imu, &hi2c1))
+  {
+    flight_status = GY85_INIT_ERROR;
   }
   osMutexRelease(i2c_mutex);
-  #endif
+#endif
   /* Infinite loop */
-  for (;;) {
-    #ifdef USE_IMU
+  for (;;)
+  {
+#ifdef USE_IMU
     osMutexAcquire(i2c_mutex, osWaitForever);
     GY85_ReadAccel(&imu);
     GY85_ReadGyro(&imu);
@@ -272,7 +290,7 @@ void AccGyroFunc(void *argument) {
     mission.my = imu.mag[1];
     mission.mz = imu.mag[2];
     osMutexRelease(mission_mutex);
-    #endif
+#endif
     osDelay(1);
   }
   /* USER CODE END AccGyroFunc */
@@ -285,7 +303,8 @@ void AccGyroFunc(void *argument) {
  * @retval None
  */
 /* USER CODE END Header_PressFunc */
-void PressFunc(void *argument) {
+void PressFunc(void *argument)
+{
   /* USER CODE BEGIN PressFunc */
   BMP280_HandleTypedef bmp280;
   bmp280_init_default_params(&bmp280.params);
@@ -294,26 +313,28 @@ void PressFunc(void *argument) {
 
   struct bmp_data bmp_data;
 
-  #ifdef USE_BMP280
+#ifdef USE_BMP280
   osMutexAcquire(i2c_mutex, osWaitForever);
-  if (!bmp280_init(&bmp280, &bmp280.params)) {
+  if (!bmp280_init(&bmp280, &bmp280.params))
+  {
     flight_status = BMP_INIT_ERROR;
   }
   osMutexRelease(i2c_mutex);
-  #endif
+#endif
   /* Infinite loop */
-  for (;;) {
-    #ifdef USE_BMP280
+  for (;;)
+  {
+#ifdef USE_BMP280
     osMutexAcquire(i2c_mutex, osWaitForever);
     bmp280_read_float(&bmp280, &bmp_data.temperature, &bmp_data.pressure,
                       &bmp_data.humidity);
     osMutexRelease(i2c_mutex);
     osMutexAcquire(mission_mutex, osWaitForever);
-    mission.temperature=bmp_data.temperature;
-    mission.pressure=bmp_data.pressure;
-    mission.humidity=bmp_data.humidity;
+    mission.temperature = bmp_data.temperature;
+    mission.pressure = bmp_data.pressure;
+    mission.humidity = bmp_data.humidity;
     osMutexRelease(mission_mutex);
-    #endif
+#endif
     osDelay(1);
   }
   /* USER CODE END PressFunc */
@@ -326,24 +347,26 @@ void PressFunc(void *argument) {
  * @retval None
  */
 /* USER CODE END Header_GPSFunc */
-void GPSFunc(void *argument) {
+void GPSFunc(void *argument)
+{
   /* USER CODE BEGIN GPSFunc */
   char latitude[16];
   char longitude[16];
-  #ifdef USE_GPS
+#ifdef USE_GPS
   GPS_Init(&huart2);
-  #endif
+#endif
   /* Infinite loop */
-  for (;;) {
-    #ifdef USE_GPS
+  for (;;)
+  {
+#ifdef USE_GPS
     GPS_Process();
     strcpy(latitude, gps_data.latitude);
     strcpy(longitude, gps_data.longitude);
     osMutexAcquire(mission_mutex, osWaitForever);
-    strcpy(latitude,mission.latitude);
-    strcpy(longitude,mission.longitude);
+    strcpy(latitude, mission.latitude);
+    strcpy(longitude, mission.longitude);
     osMutexRelease(mission_mutex);
-    #endif
+#endif
     osDelay(1);
   }
   /* USER CODE END GPSFunc */
@@ -356,10 +379,12 @@ void GPSFunc(void *argument) {
  * @retval None
  */
 /* USER CODE END Header_ServoFunc */
-void ServoFunc(void *argument) {
+void ServoFunc(void *argument)
+{
   /* USER CODE BEGIN ServoFunc */
   /* Infinite loop */
-  for (;;) {
+  for (;;)
+  {
     osDelay(1);
   }
   /* USER CODE END ServoFunc */
@@ -372,7 +397,8 @@ void ServoFunc(void *argument) {
  * @retval None
  */
 /* USER CODE END Header_LoRaFunc */
-void LoRaFunc(void *argument) {
+void LoRaFunc(void *argument)
+{
   /* USER CODE BEGIN LoRaFunc */
   LoRa lora;
   lora.hspi = &hspi1;
@@ -380,37 +406,73 @@ void LoRaFunc(void *argument) {
   lora.nss_pin = CS_LORA_Pin;
   lora.reset_port = LORA_RST_GPIO_Port;
   lora.reset_pin = LORA_RST_Pin;
-  uint8_t buf = 69;
-  uint8_t rec_buf[128];
-  #ifdef USE_LORA
+  // uint8_t buf = 69; // Moved as a static variable
+  // uint8_t rec_buf[256]; // Moved as a static variable
+#ifdef USE_LORA
   LoRa_Init(&lora);
   LoRa_ReceiveContinuous(&lora);
-  #endif
+#endif
+
+#ifdef USE_ESP
+  HAL_UART_Receive_IT(&huart1, &buf, 1);
+#endif
   /* Infinite loop */
-  for (;;) {
-    #ifdef USE_LORA
+  for (;;)
+  {
+#ifdef USE_LORA
     osMutexAcquire(mission_mutex, osWaitForever);
-    if(mission.send_data){
-      mission.send_data=false;
+    if (mission.send_data)
+    {
+      mission.send_data = false;
       memcpy(rec_buf, &mission, sizeof(mission));
       LoRa_SendPacket(&lora, rec_buf, sizeof(mission));
       osMutexRelease(mission_mutex);
       LoRa_ReceiveContinuous(&lora);
-    }else{
-       int len = LoRa_ReceivePacket(&lora, &buf, sizeof(buf));
-       if(buf != 69){
-        mission.lora_cmd=buf;
-        buf=69;
-        mission.new_cmd_arrived=true;
-       }else{
-        mission.lora_cmd=buf;
-        mission.new_cmd_arrived=false;
-       }
-       osMutexRelease(mission_mutex);
     }
-    #endif
-    osDelay(1);
+    else
+    {
+      int len = LoRa_ReceivePacket(&lora, &buf, sizeof(buf));
+      if (buf != 69)
+      {
+        mission.lora_cmd = buf;
+        buf = 69;
+        mission.new_cmd_arrived = true;
+      }
+      else
+      {
+        mission.lora_cmd = buf;
+        mission.new_cmd_arrived = false;
+      }
+      osMutexRelease(mission_mutex);
+    }
+#endif
+
+#ifdef USE_ESP
+    osMutexAcquire(mission_mutex, osWaitForever);
+    if (mission.send_data)
+    {
+      mission.send_data = false;
+      MissionToString(mission, rec_buf);
+      HAL_UART_Transmit_IT(&huart1, (uint8_t *)rec_buf, strlen(rec_buf));
+    }
+    else
+    {
+      if (buf != 69)
+      {
+        mission.lora_cmd = buf;
+        // buf = 69;
+        mission.new_cmd_arrived = true;
+      }
+      else
+      {
+        mission.lora_cmd = buf;
+        mission.new_cmd_arrived = false;
+      }
+      osMutexRelease(mission_mutex);
+    }
+#endif
   }
+  osDelay(1);
   /* USER CODE END LoRaFunc */
 }
 
@@ -421,15 +483,18 @@ void LoRaFunc(void *argument) {
  * @retval None
  */
 /* USER CODE END Header_MissionControlFunc */
-void MissionControlFunc(void *argument) {
+void MissionControlFunc(void *argument)
+{
   /* USER CODE BEGIN MissionControlFunc */
-  
+
   /* Infinite loop */
-  for (;;) {
+  for (;;)
+  {
     osMutexAcquire(mission_mutex, osWaitForever);
-    if(mission.new_cmd_arrived){
-      ReactToCommand(mission.lora_cmd, flight_status, mission);
-      mission.new_cmd_arrived=false;
+    if (mission.new_cmd_arrived)
+    {
+      ReactToCommand(mission.lora_cmd, &flight_status, mission);
+      mission.new_cmd_arrived = false;
     }
     flight_status = StateMachine(flight_status, mission);
     osMutexRelease(mission_mutex);
@@ -439,5 +504,19 @@ void MissionControlFunc(void *argument) {
 }
 
 /* Private application code --------------------------------------------------*/
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  if (huart->Instance == USART1)
+  {
+    HAL_UART_Receive_IT(&huart1, &buf, 1);
+  }
+}
 
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+  if (huart->Instance == USART1)
+  {
+    osMutexRelease(mission_mutex);
+  }
+}
 /* USER CODE END Application */

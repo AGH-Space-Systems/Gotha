@@ -67,11 +67,11 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : SERVO_Pin */
-  GPIO_InitStruct.Pin = SERVO_Pin;
+  /*Configure GPIO pin : SERVO_ERROR_Pin */
+  GPIO_InitStruct.Pin = SERVO_ERROR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(SERVO_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(SERVO_ERROR_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LED_R_Pin LED_G_Pin LED_B_Pin LED_Y_Pin */
   GPIO_InitStruct.Pin = LED_R_Pin|LED_G_Pin|LED_B_Pin|LED_Y_Pin;

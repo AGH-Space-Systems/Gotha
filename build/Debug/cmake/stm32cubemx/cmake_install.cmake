@@ -1,8 +1,8 @@
-# Install script for directory: /Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx
+# Install script for directory: C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/usr/local")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,6 +34,6 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/opt/homebrew/bin/arm-none-eabi-objdump")
+  set(CMAKE_OBJDUMP "C:/msys64/ucrt64/bin/arm-none-eabi-objdump.exe")
 endif()
 

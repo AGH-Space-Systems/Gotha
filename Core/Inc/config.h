@@ -21,7 +21,6 @@
 #define DEFGY 0
 #define DEFGZ 0
 
-
 /* Flight phases */
 
 #define IDLE 0
@@ -37,8 +36,8 @@
 
 /* Debug states*/
 
-#define USE_LORA
-//#define USE_IMU
+// #define USE_LORA
+#define USE_ESP
+// #define USE_IMU
 #define USE_BMP280
-//#define USE_GPS
-
+// #define USE_GPS

@@ -63,8 +63,8 @@ void Error_Handler(void);
 #define GPS_RST_GPIO_Port GPIOC
 #define BUZZER_Pin GPIO_PIN_4
 #define BUZZER_GPIO_Port GPIOA
-#define SERVO_Pin GPIO_PIN_2
-#define SERVO_GPIO_Port GPIOB
+#define SERVO_ERROR_Pin GPIO_PIN_2
+#define SERVO_ERROR_GPIO_Port GPIOB
 #define LED_R_Pin GPIO_PIN_12
 #define LED_R_GPIO_Port GPIOB
 #define LED_G_Pin GPIO_PIN_13

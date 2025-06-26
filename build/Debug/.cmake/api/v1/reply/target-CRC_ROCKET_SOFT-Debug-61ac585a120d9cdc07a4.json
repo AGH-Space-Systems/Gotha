@@ -11,7 +11,8 @@
 		"commands" : 
 		[
 			"add_executable",
-			"target_link_libraries"
+			"target_link_libraries",
+			"target_sources"
 		],
 		"files" : 
 		[
@@ -31,7 +32,13 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 64,
+				"line" : 68,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 49,
 				"parent" : 0
 			}
 		]
@@ -64,35 +71,35 @@
 			[
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Core/Inc"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Core/Inc"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Drivers/STM32F4xx_HAL_Driver/Inc"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Drivers/STM32F4xx_HAL_Driver/Inc"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/include"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/include"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F4xx/Include"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F4xx/Include"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Drivers/CMSIS/Include"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Drivers/CMSIS/Include"
 				}
 			],
 			"language" : "C",
@@ -180,35 +187,35 @@
 			[
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Core/Inc"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Core/Inc"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Drivers/STM32F4xx_HAL_Driver/Inc"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Drivers/STM32F4xx_HAL_Driver/Inc"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/include"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/include"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F4xx/Include"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F4xx/Include"
 				},
 				{
 					"backtrace" : 2,
-					"path" : "/Users/robert/Desktop/CRC/CRC_ROCKET_SOFT/cmake/stm32cubemx/../../Drivers/CMSIS/Include"
+					"path" : "C:/Users/kanow/Documents/programowanie/RocketSoftware/Gotha_CzechRocketChallange/Gotha/cmake/stm32cubemx/../../Drivers/CMSIS/Include"
 				}
 			],
 			"language" : "ASM",
@@ -306,6 +313,30 @@
 	"sources" : 
 	[
 		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/LoRa.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/bmp280.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/mission_control.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/imu.c",
+			"sourceGroupIndex" : 0
+		},
+		{
 			"backtrace" : 2,
 			"compileGroupIndex" : 0,
 			"path" : "Core/Src/main.c",
@@ -321,36 +352,6 @@
 			"backtrace" : 2,
 			"compileGroupIndex" : 0,
 			"path" : "Core/Src/freertos.c",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 2,
-			"compileGroupIndex" : 0,
-			"path" : "Core/Src/LoRa.c",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 2,
-			"compileGroupIndex" : 0,
-			"path" : "Core/Src/bmp280.c",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 2,
-			"compileGroupIndex" : 0,
-			"path" : "Core/Src/mission_control.c",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 2,
-			"compileGroupIndex" : 0,
-			"path" : "Core/Src/gps.c",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 2,
-			"compileGroupIndex" : 0,
-			"path" : "Core/Src/imu.c",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -387,6 +388,24 @@
 			"backtrace" : 2,
 			"compileGroupIndex" : 0,
 			"path" : "Core/Src/stm32f4xx_hal_msp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/stm32f4xx_hal_timebase_tim.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -483,18 +502,6 @@
 			"backtrace" : 2,
 			"compileGroupIndex" : 0,
 			"path" : "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 2,
-			"compileGroupIndex" : 0,
-			"path" : "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 2,
-			"compileGroupIndex" : 0,
-			"path" : "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c",
 			"sourceGroupIndex" : 0
 		},
 		{

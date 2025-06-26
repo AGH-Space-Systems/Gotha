@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "cstdint": "c",
-        "__threading_support": "c"
+        "__threading_support": "c",
+        "cmsis_os.h": "c"
     },
     "editor.formatOnSave": true,
     "clang-format.executable": "/opt/homebrew/bin/clang-format"
